@@ -6,16 +6,15 @@ import java.util.List;
 import java.util.Random;
 
 public class SupplierManagerImp implements SupplierManager {
-
+	
 	List<Supplier> supplierList = new ArrayList<Supplier>();
 	Supplier existingSupplier;
-	
-	
+			
 	@Override
 	public int addSupplier(Supplier supplier) {
 
 		supplierList.add(supplier);
-		System.out.printf("'%s' is created with Supplier Id '%d'", supplier.name, supplier.id).println();
+			System.out.printf("'%s' is created with Supplier Id '%d'", supplier.name, supplier.id).println();
 				
 		return supplier.id;
 	}
@@ -34,6 +33,16 @@ public class SupplierManagerImp implements SupplierManager {
 
 	@Override
 	public List<Supplier> getSuppliers() {
+		
+		String leftAlignFormat = "%-8d | %-9s |  %-20s  | %-9s   | %-14s  | %-12s   | %-15s      | %-18s    | %-14s  %n";
+
+		System.out.format("---------|-----------|------------------------|-------------|-----------------|----------------|----------------------|-----------------------|-----------------------%n");
+		System.out.format(" Id      | Name      | Address                | Post Code   | Country         | Phone          | Email                | Created Date Time     | Updated Date Time     %n");
+		System.out.format("---------|-----------|------------------------|-------------|-----------------|----------------|----------------------|-----------------------|-----------------------%n");
+		for (Supplier supplier:supplierList) {
+			System.out.format(leftAlignFormat, supplier.id, supplier.name, supplier.address, supplier.postCode, supplier.country, supplier.phone, supplier.email, supplier.createDateTime, supplier.updateDateTime);
+		}
+		
 		
 		return null;
 	}

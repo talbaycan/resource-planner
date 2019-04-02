@@ -20,6 +20,7 @@ public class AppRunner {
 			int supplierManagerMenuChoice = input.nextInt();
 				if (supplierManagerMenuChoice==1) {
 					addingNewSupplier();					
+					
 				}
 		}		
 		
@@ -69,19 +70,19 @@ public class AppRunner {
 		String name = input.next();
 		
 		System.out.println("Supplier Address:");
-		String address = input.next();
+		String address = input.nextLine();
 		
 		System.out.println("Post code:");
-		String postCode = input.next();
+		String postCode = input.nextLine();
 		
 		System.out.println("Country:");
-		String country = input.next();
+		String country = input.nextLine();
 		
 		System.out.println("Phone:");
-		String phone = input.next();
+		String phone = input.nextLine();
 		
 		System.out.println("Email Address:");
-		String email = input.next();
+		String email = input.nextLine();
 		
 		LocalDateTime createDateTime = LocalDateTime.now();
 		LocalDateTime updateDateTime = LocalDateTime.now();
@@ -108,7 +109,7 @@ public class AppRunner {
 		System.out.println("***********List of All Suppliers************\n");
 		
 		SupplierManager supplierManager = new SupplierManagerImp();
-		supplierManager.getSuppliers();
+		System.out.println(supplierManager.getSuppliers());
 		
 	}
 	
