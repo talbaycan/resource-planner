@@ -8,5 +8,6 @@ public interface SupplierManager {
 	void removeSupplier(int id);
 	List<Supplier> getSuppliers();
 	void editSupplier(Supplier supplier);
+	Supplier getSupplierById(int id);
 	
 }

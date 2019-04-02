@@ -1,16 +1,37 @@
 package com.albaycan.resourceplanner;
 
+import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.Scanner;
 
 public class AppRunner {
 
+	private static Scanner input = new Scanner(System.in);
+
 	public static void main(String[] args) {		
 
-		Scanner input = new Scanner(System.in);
 		
 		// Print First Menu
 		System.out.println(firstMenuText());
 		int firstMenuChoice = input.nextInt();
+		
+		if(firstMenuChoice==1) {
+			System.out.println(supplierManagerMenuText());
+			int supplierManagerMenuChoice = input.nextInt();
+				if (supplierManagerMenuChoice==1) {
+					addingNewSupplier();					
+				}
+		}		
+		
+		System.out.println("Press ‘B’ to go back to Supplier Manager Menu or ‘*’ to go to Main Menu");
+		String endOfMenu = input.next();
+		if (endOfMenu.equals("B")) {
+			System.out.println(supplierManagerMenuText());
+		} else if (endOfMenu.equals("*")) {
+			System.out.println(firstMenuText());
+			}
+								
+		
 	}
 	
 	private static String firstMenuText() {
@@ -27,5 +48,106 @@ public class AppRunner {
 		
 		return sb.toString();
 	}
-
+	
+	private static String supplierManagerMenuText() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("***********Supplier Manager************\n");
+		sb.append("Please select an operation below:\n");
+		sb.append("       (1)Add New Supplier\n");
+		sb.append("       (2)Remove Supplier\n");
+		sb.append("       (3)Show All Suppliers\n");
+		sb.append("       (4)Edit Supplier\n");
+		
+		return sb.toString();
+	}
+	
+	private static void addingNewSupplier() {
+				
+		System.out.println("***********Add New Supplier************\n");
+		
+		System.out.println("Supplier Name:");
+		String name = input.next();
+		
+		System.out.println("Supplier Address:");
+		String address = input.next();
+		
+		System.out.println("Post code:");
+		String postCode = input.next();
+		
+		System.out.println("Country:");
+		String country = input.next();
+		
+		System.out.println("Phone:");
+		String phone = input.next();
+		
+		System.out.println("Email Address:");
+		String email = input.next();
+		
+		LocalDateTime createDateTime = LocalDateTime.now();
+		LocalDateTime updateDateTime = LocalDateTime.now();
+		
+		Supplier supplier = new Supplier(name, address, postCode, country, phone, email, createDateTime, updateDateTime);		
+		
+		SupplierManager supplierManager = new SupplierManagerImp();
+		supplierManager.addSupplier(supplier);
+		
+	}
+	
+	private static void removingSupplier() {
+		System.out.println("***********Remove Supplier************\n");
+		
+		System.out.println("Supplier Id:\n");
+		int id = input.nextInt();		
+		
+		SupplierManager supplierManager = new SupplierManagerImp();
+		supplierManager.removeSupplier(id);
+		
+	}
+	
+	private static void showingAllSuppliers() {
+		System.out.println("***********List of All Suppliers************\n");
+		
+		SupplierManager supplierManager = new SupplierManagerImp();
+		supplierManager.getSuppliers();
+		
+	}
+	
+	private static void editingSupplier() {
+		System.out.println("***********Edit Supplier************\n");
+		
+		
+		System.out.println("Enter the Id of the supplier you wish to edit:\n");
+		int id = input.nextInt();
+		
+		SupplierManager supplierManager = new SupplierManagerImp();
+		
+		System.out.println("Tip: The values in brackets are existing values. Press Enter to skip or enter a new value to change...\n");
+		
+		System.out.printf("Supplier Name (“%s”):", supplierManager.getSupplierById(id).name).println();
+		String name = input.next();
+		
+		System.out.printf("Supplier Address (“%s”):", supplierManager.getSupplierById(id).address).println();
+		String address = input.next();
+		
+		System.out.printf("Post code(“%s”):", supplierManager.getSupplierById(id).postCode).println();
+		String postCode = input.next();
+		
+		System.out.printf("Country (“%s”):", supplierManager.getSupplierById(id).country).println();
+		String country = input.next();
+		
+		System.out.printf("Phone (“%s”):", supplierManager.getSupplierById(id).phone).println();
+		String phone = input.next();
+		
+		System.out.printf("Email Address (“%s”):", supplierManager.getSupplierById(id).email).println();
+		String email = input.next();
+		
+		LocalDateTime createDateTime = supplierManager.getSupplierById(id).createDateTime;
+		LocalDateTime updateDateTime = LocalDateTime.now();
+		
+		Supplier editedSupplier = new Supplier(name, address, postCode, country, phone, email, createDateTime, updateDateTime);
+		
+		System.out.printf("‘%s’ is updated.", supplierManager.getSupplierById(id).name);		
+		
+	}
+	
 }
