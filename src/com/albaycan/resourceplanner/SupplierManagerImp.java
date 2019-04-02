@@ -37,8 +37,7 @@ public class SupplierManagerImp implements SupplierManager {
 		
 		return null;
 	}
-	//Supplier(String name, String address, String postCode, String contry, String phone, String email, LocalDateTime createDateTime, LocalDateTime updateDateTime)
-
+	
 	@Override
 	public void editSupplier(Supplier editedSupplier) {
 		
