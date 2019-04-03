@@ -10,28 +10,42 @@ public class AppRunner {
 
 	public static void main(String[] args) {		
 
+		String endOfMenu = null; 
 		
+		do {
 		// Print First Menu
 		System.out.println(firstMenuText());
 		int firstMenuChoice = input.nextInt();
 		
 		if(firstMenuChoice==1) {
-			System.out.println(supplierManagerMenuText());
-			int supplierManagerMenuChoice = input.nextInt();
+			
+			// Print Supplier Manager Menu
+			do {
+			
+				System.out.println(supplierManagerMenuText());
+				int supplierManagerMenuChoice = input.nextInt();
+				
+				// Call methods according to menu selection
 				if (supplierManagerMenuChoice==1) {
 					addingNewSupplier();					
-					
+				} else if (supplierManagerMenuChoice==2) {
+					removingSupplier();
+				} else if (supplierManagerMenuChoice==3) {
+					showingAllSuppliers();
+				} else if (supplierManagerMenuChoice==4) {
+					editingSupplier();
 				}
+				
+				System.out.println("Press ‘B’ to go back to Supplier Manager Menu or ‘*’ to go to Main Menu");
+				endOfMenu = input.next();
+				
+				} while (endOfMenu.equals("B"));
 		}		
 		
-		System.out.println("Press ‘B’ to go back to Supplier Manager Menu or ‘*’ to go to Main Menu");
-		String endOfMenu = input.next();
-		if (endOfMenu.equals("B")) {
-			System.out.println(supplierManagerMenuText());
-		} else if (endOfMenu.equals("*")) {
-			System.out.println(firstMenuText());
-			}
-								
+		
+		}
+		while (endOfMenu.equals("*"));
+										
 		
 	}
 	
@@ -70,19 +84,19 @@ public class AppRunner {
 		String name = input.next();
 		
 		System.out.println("Supplier Address:");
-		String address = input.nextLine();
+		String address = input.next();
 		
 		System.out.println("Post code:");
-		String postCode = input.nextLine();
+		String postCode = input.next();
 		
 		System.out.println("Country:");
-		String country = input.nextLine();
+		String country = input.next();
 		
 		System.out.println("Phone:");
-		String phone = input.nextLine();
+		String phone = input.next();
 		
 		System.out.println("Email Address:");
-		String email = input.nextLine();
+		String email = input.next();
 		
 		LocalDateTime createDateTime = LocalDateTime.now();
 		LocalDateTime updateDateTime = LocalDateTime.now();
