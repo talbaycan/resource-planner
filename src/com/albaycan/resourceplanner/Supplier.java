@@ -3,19 +3,23 @@ package com.albaycan.resourceplanner;
 import java.time.LocalDateTime;
 import java.util.Random;
 
+enum Country {
+	UnitedKingdom, France, Germany, USA
+}
+
 public class Supplier implements java.io.Serializable {
 	
-	int id;
-	String name;
-	String address; 
-	String postCode;
-	String country;
-	String phone;
-	String email;
-	LocalDateTime createDateTime;
-	LocalDateTime updateDateTime;
+	private int id;
+	private String name;
+	private String address;
+	private String postCode;
+	private Country country;
+	private String phone;
+	private String email;
+	private LocalDateTime createDateTime;
+	private LocalDateTime updateDateTime;
 	
-	public Supplier(String name, String address, String postCode, String country, String phone, String email, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
+	public Supplier(String name, String address, String postCode, Country country, String phone, String email, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
 		this.id= new Random().nextInt((Integer.MAX_VALUE));
 		this.name = name;
 		this.address = address;
@@ -27,13 +31,13 @@ public class Supplier implements java.io.Serializable {
 		this.updateDateTime = updateDateTime;
 	}
 
-	
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
-		name = name;
+		this.name = name;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public String getAddress() {
@@ -41,7 +45,8 @@ public class Supplier implements java.io.Serializable {
 	}
 
 	public void setAddress(String address) {
-		address = address;
+		this.address = address;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public String getPostCode() {
@@ -49,15 +54,16 @@ public class Supplier implements java.io.Serializable {
 	}
 
 	public void setPostCode(String postCode) {
-		postCode = postCode;
+		this.postCode = postCode;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
-	public String getCountry() {
+	public Country getCountry() {
 		return country;
 	}
-
-	public void setCountry(String country) {
-		country = country;
+	
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 
 	public String getPhone() {
@@ -65,7 +71,8 @@ public class Supplier implements java.io.Serializable {
 	}
 
 	public void setPhone(String phone) {
-		phone = phone;
+		this.phone = phone;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public String getEmail() {
@@ -73,7 +80,8 @@ public class Supplier implements java.io.Serializable {
 	}
 
 	public void setEmail(String email) {
-		email = email;
+		this.email = email;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public int getId() {
@@ -87,5 +95,7 @@ public class Supplier implements java.io.Serializable {
 	public LocalDateTime getUpdateDateTime() {
 		return updateDateTime;
 	}
+
+
 
 }
