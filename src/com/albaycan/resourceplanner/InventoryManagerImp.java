@@ -2,6 +2,7 @@ package com.albaycan.resourceplanner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InventoryManagerImp implements InventoryManager {
 
@@ -9,44 +10,49 @@ public class InventoryManagerImp implements InventoryManager {
 	
 	@Override
 	public int addProduct(Product product) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		productList.add(product);
+		
+		return product.getId();
 	}
 
 	@Override
 	public void removeProduct(int id) {
-		// TODO Auto-generated method stub
-
+		
+		productList.removeIf(x->x.getId()==id);
+		
 	}
 
 	@Override
 	public List<Product> getProducts() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return productList;
 	}
 
 	@Override
 	public void editProduct(Product product) {
-		// TODO Auto-generated method stub
+	
+		removeProduct(product.getId());
+		addProduct(product);
 
 	}
 
 	@Override
 	public Product getProductById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return productList.stream().filter(x->x.getId()==id).findFirst().get();
 	}
 
 	@Override
-	public Product getProductByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Product> getProductByName(String name) {
+		
+		return productList.stream().filter(x->x.getName().contains(name)).distinct().collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Product> getOutOfStockProducts() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return productList.stream().filter(x->x.getStock()==0).distinct().collect(Collectors.toList());
 	}
 
 	@Override

@@ -9,7 +9,7 @@ public interface InventoryManager {
 	List<Product> getProducts();
 	void editProduct(Product product);
 	Product getProductById(int id);
-	Product getProductByName(String name);
+	List<Product> getProductByName(String name);
 	List<Product> getOutOfStockProducts();
 	List<Product> getProductWhichWillSoldOutInAWeek();
 	

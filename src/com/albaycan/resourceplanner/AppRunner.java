@@ -80,13 +80,9 @@ public class AppRunner {
 		
 		}
 		}
-		while (endOfMenu.equals("*"));
+		while (endOfMenu.equals("*"));										
 		
-										
-		
-	}
-
-	
+	}	
 	
 
 	private static String firstMenuText() {
@@ -139,7 +135,9 @@ public class AppRunner {
 	private static Country country;	
 	
 	private static Category category;
-
+	
+	
+	//Supplier Manager methods
 	private static void addSupplier() {
 				
 		System.out.println("***********Add New Supplier************\n");
@@ -268,45 +266,12 @@ public class AppRunner {
 		
 
 		System.out.printf("‘%s’ is updated.", supplier.getName()).println();
-		;
+
 		
-	}
+	}	
+		
 	
-	private static void getProductWhichWillSoldOutInAWeek() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void getOutOfStockProducts() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void getProductByName() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void getProductById() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void editProduct() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void getProducts() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void removeProduct() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	//Inventory Manager methods
 	private static void addProduct() {		
 			
 		System.out.println("***********Add Product************\n");
@@ -322,6 +287,7 @@ public class AppRunner {
 			
 		System.out.println("Supplier Id:");
 		int supplierId = input.nextInt();
+		input.nextLine();
 			
 		System.out.println("Buy Price (GBP)");
 		double buyPrice = input.nextDouble();
@@ -331,9 +297,11 @@ public class AppRunner {
 		
 		System.out.println("Weight (Grams)");
 		int weight = input.nextInt();
+		input.nextLine();
 		
 		System.out.println("Stock:");
 		int stock = input.nextInt();
+		input.nextLine();
 		
 		LocalDateTime createDateTime = LocalDateTime.now();
 		LocalDateTime updateDateTime = LocalDateTime.now();		
@@ -341,11 +309,204 @@ public class AppRunner {
 		Product product = new Product(SKU, supplierId, category, name, buyPrice, sellPrice, weight, stock, createDateTime, updateDateTime);		
 			
 		int productId = inventoryManager.addProduct(product);
-		System.out.printf("'%s' is created with Product Id '%d'", name, productId).println();
-		
+		System.out.printf("'%s' is created with Product Id '%d'", name, productId).println();	
 		
 	}
 	
+	
+	private static void removeProduct() {
+		System.out.println("***********Remove Product************\n");
+		
+		System.out.println("Product Id:\n");
+		int id = input.nextInt();
+		input.nextLine();
+		
+		Product product = inventoryManager.getProductById(id);
+
+		inventoryManager.removeProduct(id);
+		System.out.printf("'%s' is removed", product.getName()).println();
+		
+	}
+	
+	
+	private static void getProducts() {
+		System.out.println("***********List of All Products************\n");
+
+		String leftAlignFormat = "%-11d | %-9s |  %-20s  | %-9s   | %-14s  | %-12s   | %-15s      | %-9s   | %-9s   | %-22s   | %-20s  %n";
+
+		System.out.format(
+				"------------|-----------|------------------------|-------------|-----------------|----------------|----------------------|-------------|-------------|---------------------------------|------------------------------------%n");
+		System.out.format(
+				" Id         | Name      | SKU                    | Category    | Supplier Id     | Buy Price (£)  | Sell Price (£)       | Weight (g)  | Stock       |Created Date Time               | Updated Date Time                  %n");
+		System.out.format(
+				"------------|-----------|------------------------|-------------|-----------------|----------------|----------------------|-------------|-------------|---------------------------------|------------------------------------%n");
+
+		List<Product> productList = inventoryManager.getProducts();
+
+		for (Product product : productList) {
+			System.out.format(leftAlignFormat, product.getId(), product.getName(), product.getSKU(), product.getCategory(), product.getSupplierId(), product.getBuyPrice(), product.getSellPrice(), product.getWeight(), product.getStock(), product.getCreateDateTime(), product.getUpdateDateTime());
+		}
+		
+	}
+	
+	
+	private static void editProduct() {
+		System.out.println("***********Edit Product************\n");
+		
+		
+		System.out.println("Enter the Id of the product you wish to edit:\n");
+		int id = input.nextInt();
+		input.nextLine();
+		
+		System.out.println("Tip: The values in brackets are existing values. Press Enter to skip or enter a new value to change...\n");
+		
+		Product product = inventoryManager.getProductById(id);
+
+		System.out.printf("Product Name (“%s”):", product.getName()).println();
+		String name = input.nextLine();
+		if (name.equals("")) {
+			name=product.getName();
+		}
+		
+		System.out.printf("Product SKU (“%s”):", product.getSKU()).println();
+		String SKU = input.nextLine();
+		if (SKU.equals("")) {
+			SKU=product.getSKU();
+		}
+		
+		System.out.printf("Category(“%s”):", product.getCategory()).println();
+		Category category = Category.valueOf(input.nextLine());
+		if (category.equals("")) {
+			category = product.getCategory();
+		}
+		
+		System.out.printf("Supplier Id (“%s”):", product.getSupplierId()).println();
+		String supId = input.nextLine();
+		int supplierId=0;
+		//if (supplierId == null) {
+		if (supId.equals("")) {
+			supplierId=product.getSupplierId();
+		}
+		
+		System.out.printf("Buy Price £ (“%s”):", product.getBuyPrice()).println();
+		String bPrice = input.nextLine();
+		double buyPrice=0.0;
+		if (bPrice.equals("")) {
+			buyPrice = product.getBuyPrice();
+		}
+		
+		System.out.printf("Sell Price £ (“%s”):", product.getSellPrice()).println();
+		String sPrice = input.nextLine();
+		double sellPrice=0.0;
+		if (sPrice.equals("")) {
+			sellPrice = product.getSellPrice();
+		}
+		
+		System.out.printf("Weight g (“%s”):", product.getWeight()).println();
+		String wei = input.nextLine();
+		int weight=0;
+		if (wei.equals("")) {
+			weight=product.getWeight();
+		}
+		
+		System.out.printf("Stock (“%s”):", product.getStock()).println();
+		String sto = input.nextLine();
+		int stock=0;
+		if (sto.equals("")) {
+			stock=product.getStock();
+		}
+		
+		product.setName(name);
+		product.setSKU(SKU);
+		product.setCategory(category);
+		product.setSupplierId(supplierId);
+		product.setBuyPrice(buyPrice);
+		product.setSellPrice(sellPrice);
+		product.setWeight(weight);
+		product.setStock(stock);
+
+		inventoryManager.editProduct(product);		
+
+		System.out.printf("‘%s’ is updated.", product.getName()).println();
+		
+	}
+	
+	
+	private static void getProductById() {
+		System.out.println("***********Find Product by Product Id************\n");
+		
+		System.out.println("Product Id:\n");
+		int id = input.nextInt();
+		input.nextLine();
+		
+		Product product = inventoryManager.getProductById(id);
+		
+		String leftAlignFormat = "%-11d | %-9s |  %-20s  | %-9s   | %-14s  | %-12s   | %-15s      | %-9s   | %-9s   | %-22s   | %-20s  %n";
+
+		System.out.format(
+				"------------|-----------|------------------------|-------------|-----------------|----------------|----------------------|-------------|-------------|---------------------------------|------------------------------------%n");
+		System.out.format(
+				" Id         | Name      | SKU                    | Category    | Supplier Id     | Buy Price (£)  | Sell Price (£)       | Weight (g)  | Stock       |Created Date Time               | Updated Date Time                  %n");
+		System.out.format(
+				"------------|-----------|------------------------|-------------|-----------------|----------------|----------------------|-------------|-------------|---------------------------------|------------------------------------%n");
+
+		System.out.format(leftAlignFormat, product.getId(), product.getName(), product.getSKU(), product.getCategory(), product.getSupplierId(), product.getBuyPrice(), product.getSellPrice(), product.getWeight(), product.getStock(), product.getCreateDateTime(), product.getUpdateDateTime());
+				
+	}
+	
+	
+	private static void getProductByName() {
+		System.out.println("***********Find Product by Product Name************\n");
+		
+		System.out.println("Product Name Contains:\n");
+		String name = input.nextLine();
+
+		List<Product> productList = inventoryManager.getProductByName(name);		
+		
+		String leftAlignFormat = "%-11d | %-9s |  %-20s  | %-9s   | %-14s  | %-12s   | %-15s      | %-9s   | %-9s   | %-22s   | %-20s  %n";
+
+		System.out.format(
+				"------------|-----------|------------------------|-------------|-----------------|----------------|----------------------|-------------|-------------|---------------------------------|------------------------------------%n");
+		System.out.format(
+				" Id         | Name      | SKU                    | Category    | Supplier Id     | Buy Price (£)  | Sell Price (£)       | Weight (g)  | Stock       |Created Date Time               | Updated Date Time                  %n");
+		System.out.format(
+				"------------|-----------|------------------------|-------------|-----------------|----------------|----------------------|-------------|-------------|---------------------------------|------------------------------------%n");
+
+		for (Product product : productList) {
+			System.out.format(leftAlignFormat, product.getId(), product.getName(), product.getSKU(), product.getCategory(), product.getSupplierId(), product.getBuyPrice(), product.getSellPrice(), product.getWeight(), product.getStock(), product.getCreateDateTime(), product.getUpdateDateTime());
+		}
+				
+	}
+	
+	
+	private static void getOutOfStockProducts() {
+		System.out.println("***********Find Out of Stock Products************\n");
+		
+		List<Product> productList = inventoryManager.getOutOfStockProducts();
+		
+		String leftAlignFormat = "%-11d | %-9s |  %-20s  | %-9s   | %-14s  | %-12s   | %-15s      | %-9s   | %-9s   | %-22s   | %-20s  %n";
+
+		System.out.format(
+				"------------|-----------|------------------------|-------------|-----------------|----------------|----------------------|-------------|-------------|---------------------------------|------------------------------------%n");
+		System.out.format(
+				" Id         | Name      | SKU                    | Category    | Supplier Id     | Buy Price (£)  | Sell Price (£)       | Weight (g)  | Stock       |Created Date Time               | Updated Date Time                  %n");
+		System.out.format(
+				"------------|-----------|------------------------|-------------|-----------------|----------------|----------------------|-------------|-------------|---------------------------------|------------------------------------%n");
+
+		for (Product product : productList) {
+			System.out.format(leftAlignFormat, product.getId(), product.getName(), product.getSKU(), product.getCategory(), product.getSupplierId(), product.getBuyPrice(), product.getSellPrice(), product.getWeight(), product.getStock(), product.getCreateDateTime(), product.getUpdateDateTime());
+		}
+		
+	}
+	
+	
+	private static void getProductWhichWillSoldOutInAWeek() {
+		System.out.println("Coming Soon");
+		
+	}	
+	
+	
+	//ENUM methods
 	private static Country getCountry() {
 		
 		System.out.println("Please select 1 of these countries: UnitedKingdom, France, Germany or USA");
