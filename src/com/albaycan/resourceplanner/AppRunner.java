@@ -382,36 +382,35 @@ public class AppRunner {
 		
 		System.out.printf("Supplier Id (“%s”):", product.getSupplierId()).println();
 		String supId = input.nextLine();
-		int supplierId=0;
-		//if (supplierId == null) {
-		if (supId.equals("")) {
-			supplierId=product.getSupplierId();
-		}
+		int supplierId;
+		if (!supId.equals("")) {
+			supplierId=(int) supId;
+		} else supplierId=product.getSupplierId();
 		
 		System.out.printf("Buy Price £ (“%s”):", product.getBuyPrice()).println();
 		String bPrice = input.nextLine();
-		double buyPrice=0.0;
+		double buyPrice=Double.valueOf(bPrice);
 		if (bPrice.equals("")) {
 			buyPrice = product.getBuyPrice();
 		}
 		
 		System.out.printf("Sell Price £ (“%s”):", product.getSellPrice()).println();
 		String sPrice = input.nextLine();
-		double sellPrice=0.0;
+		double sellPrice=Double.valueOf(sPrice);
 		if (sPrice.equals("")) {
 			sellPrice = product.getSellPrice();
 		}
 		
 		System.out.printf("Weight g (“%s”):", product.getWeight()).println();
 		String wei = input.nextLine();
-		int weight=0;
+		int weight=Integer.valueOf(wei);
 		if (wei.equals("")) {
 			weight=product.getWeight();
 		}
 		
 		System.out.printf("Stock (“%s”):", product.getStock()).println();
 		String sto = input.nextLine();
-		int stock=0;
+		int stock=Integer.valueOf(sto);
 		if (sto.equals("")) {
 			stock=product.getStock();
 		}

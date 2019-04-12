@@ -46,7 +46,7 @@ public class InventoryManagerImp implements InventoryManager {
 	@Override
 	public List<Product> getProductByName(String name) {
 		
-		return productList.stream().filter(x->x.getName().contains(name)).distinct().collect(Collectors.toList());
+		return productList.stream().filter(x->x.getName().toLowerCase().contains(name.toLowerCase())).distinct().collect(Collectors.toList());
 	}
 
 	@Override

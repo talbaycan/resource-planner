@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 enum Category {
-	Gift, Toy
+	Gift, Toy, Computer
 }
 
 public class Product implements java.io.Serializable {
