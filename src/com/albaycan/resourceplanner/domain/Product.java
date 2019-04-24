@@ -1,11 +1,7 @@
-package com.albaycan.resourceplanner;
+package com.albaycan.resourceplanner.domain;
 
 import java.time.LocalDateTime;
 import java.util.Random;
-
-enum Category {
-	Gift, Toy, Computer
-}
 
 public class Product implements java.io.Serializable {
 
@@ -54,6 +50,7 @@ public class Product implements java.io.Serializable {
 
 	public void setSKU(String SKU) {
 		this.SKU = SKU;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public int getSupplierId() {
@@ -62,6 +59,7 @@ public class Product implements java.io.Serializable {
 
 	public void setSupplierId(int supplierId) {
 		this.supplierId = supplierId;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public Category getCategory() {
@@ -70,6 +68,7 @@ public class Product implements java.io.Serializable {
 
 	public void setCategory(Category category) {
 		this.category = category;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public String getName() {
@@ -78,6 +77,7 @@ public class Product implements java.io.Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public double getBuyPrice() {
@@ -86,6 +86,7 @@ public class Product implements java.io.Serializable {
 
 	public void setBuyPrice(double buyPrice) {
 		this.buyPrice = buyPrice;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public double getSellPrice() {
@@ -94,6 +95,7 @@ public class Product implements java.io.Serializable {
 
 	public void setSellPrice(double sellPrice) {
 		this.sellPrice = sellPrice;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public int getWeight() {
@@ -102,6 +104,7 @@ public class Product implements java.io.Serializable {
 
 	public void setWeight(int weight) {
 		this.weight = weight;
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public int getStock() {
@@ -110,9 +113,8 @@ public class Product implements java.io.Serializable {
 
 	public void setStock(int stock) {
 		this.stock = stock;
+		this.updateDateTime = LocalDateTime.now();
 	}
-	
-	
 	
 	
 	

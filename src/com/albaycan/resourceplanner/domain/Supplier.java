@@ -1,11 +1,7 @@
-package com.albaycan.resourceplanner;
+package com.albaycan.resourceplanner.domain;
 
 import java.time.LocalDateTime;
 import java.util.Random;
-
-enum Country {
-	UnitedKingdom, France, Germany, USA,
-}
 
 public class Supplier implements java.io.Serializable {
 	

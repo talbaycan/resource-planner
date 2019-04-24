@@ -1,7 +1,9 @@
-package com.albaycan.resourceplanner;
+package com.albaycan.resourceplanner.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.albaycan.resourceplanner.domain.Supplier;
 
 public class SupplierManagerImp implements SupplierManager {
 	
@@ -57,6 +59,17 @@ public class SupplierManagerImp implements SupplierManager {
 		// return supplierList.stream().filter(x->x.getId()==id).findFirst().get();
 
 		return existingSupplier;
+	}
+
+	@Override
+	public boolean exists(int id) {
+		if(getSupplierById(id)==null) {
+			return false;
+		} else {
+			return true;
+		}
+		
+		//return getSupplierById(id)!=null;
 	}
 	
 

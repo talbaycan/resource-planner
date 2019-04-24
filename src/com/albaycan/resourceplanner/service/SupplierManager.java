@@ -1,6 +1,8 @@
-package com.albaycan.resourceplanner;
+package com.albaycan.resourceplanner.service;
 
 import java.util.List;
+
+import com.albaycan.resourceplanner.domain.Supplier;
 
 public interface SupplierManager {
 
@@ -9,5 +11,6 @@ public interface SupplierManager {
 	List<Supplier> getSuppliers();
 	void editSupplier(Supplier supplier);
 	Supplier getSupplierById(int id);
+	boolean exists(int id);
 	
 }

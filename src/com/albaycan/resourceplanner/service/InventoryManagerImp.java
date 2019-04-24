@@ -1,8 +1,10 @@
-package com.albaycan.resourceplanner;
+package com.albaycan.resourceplanner.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.albaycan.resourceplanner.domain.Product;
 
 public class InventoryManagerImp implements InventoryManager {
 
@@ -46,19 +48,45 @@ public class InventoryManagerImp implements InventoryManager {
 	@Override
 	public List<Product> getProductByName(String name) {
 		
-		return productList.stream().filter(x->x.getName().toLowerCase().contains(name.toLowerCase())).distinct().collect(Collectors.toList());
+		return productList.stream().filter(x->x.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Product> getOutOfStockProducts() {
 		
-		return productList.stream().filter(x->x.getStock()==0).distinct().collect(Collectors.toList());
+		return productList.stream().filter(x->x.getStock()==0).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Product> getProductWhichWillSoldOutInAWeek() {
-		// TODO Auto-generated method stub
+		
+		
+		
 		return null;
+	}
+
+	@Override
+	public void increaseStock(int id, int qty) {
+		Product product = getProductById(id);
+		product.setStock(product.getStock()+qty);
+		editProduct(product);
+		
+	}
+
+	@Override
+	public void decreaseStock(int id, int qty) {
+		Product product = getProductById(id);
+		product.setStock(product.getStock()-qty);
+		editProduct(product);
+		
+	}
+
+	@Override
+	public boolean exist(int id) {
+		if(getProductById(id)==null) {
+			return false;			
+		} else return true;
+		
 	}
 
 }

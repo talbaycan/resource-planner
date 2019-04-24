@@ -1,6 +1,8 @@
-package com.albaycan.resourceplanner;
+package com.albaycan.resourceplanner.service;
 
 import java.util.List;
+
+import com.albaycan.resourceplanner.domain.Product;
 
 public interface InventoryManager {	
 
@@ -12,5 +14,8 @@ public interface InventoryManager {
 	List<Product> getProductByName(String name);
 	List<Product> getOutOfStockProducts();
 	List<Product> getProductWhichWillSoldOutInAWeek();
+	void increaseStock(int id, int qty);
+	void decreaseStock(int id, int qty);
+	boolean exist(int id);
 	
 }
