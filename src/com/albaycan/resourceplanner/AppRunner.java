@@ -17,8 +17,15 @@ public class AppRunner {
 			int mainMenuChoice = input.nextInt();
 			input.nextLine();
 			
+			try {
 			UIController uiController = UIControllerFactory.getUIController(mainMenuChoice);
 			endOfMenu = uiController.showMenu();					
+			}
+			catch(Exception ex)
+			{
+				System.err.printf("ERROR: %s\nPlease try again!",ex.getStackTrace().toString()).println();
+				endOfMenu="*";
+			}
 			
 		} while (endOfMenu.equals("*"));
 

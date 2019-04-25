@@ -24,8 +24,7 @@ public class Order  implements java.io.Serializable {
 	
 	public Order(int productId, double salePrice, double shippingCost, double packagingCost, int qty,
 			String customerName, String customerAddress, String customerPostCode, Country customerCountry,
-			String customerPhone, String customerEmail, LocalDateTime createDateTime, LocalDateTime updateDateTime,
-			boolean refunded) {
+			String customerPhone, String customerEmail, boolean refunded) {
 		super();
 		this.id = new Random().nextInt((Integer.MAX_VALUE));
 		this.productId = productId;
@@ -39,8 +38,8 @@ public class Order  implements java.io.Serializable {
 		this.customerCountry = customerCountry;
 		this.customerPhone = customerPhone;
 		this.customerEmail = customerEmail;
-		this.createDateTime = createDateTime;
-		this.updateDateTime = updateDateTime;
+		this.createDateTime = LocalDateTime.now();
+		this.updateDateTime = LocalDateTime.now();
 		this.refunded = refunded;
 	}
 

@@ -11,14 +11,14 @@ public class UIControllerFactory {
 	
 	private static SupplierManager supplierManager = new SupplierManagerImp();
 	private static InventoryManager inventoryManager = new InventoryManagerImp();
-	private static OrderManager orderManager = new OrderManagerImp();
+	private static OrderManager orderManager = new OrderManagerImp(inventoryManager);
  	
 	private static SupplierUIController supplierUIController = new SupplierUIController(supplierManager);
 	private static InventoryUIController inventoryUIController = new InventoryUIController(supplierManager, inventoryManager);
 	private static OrderUIController orderUIController = new OrderUIController(inventoryManager, orderManager);
 	private static ReportUIController reportUIController = new ReportUIController();
 	
-	public static UIController getUIController(int choice) {
+	public static UIController getUIController(int choice) throws Exception {
 					
 		switch (choice) {
 		case 1:
@@ -31,7 +31,7 @@ public class UIControllerFactory {
 			return reportUIController;			
 		}
 		
-	return null;
+	throw new Exception("Invalid input.");
 	}
 
 		

@@ -15,7 +15,7 @@ public class Supplier implements java.io.Serializable {
 	private LocalDateTime createDateTime;
 	private LocalDateTime updateDateTime;
 	
-	public Supplier(String name, String address, String postCode, Country country, String phone, String email, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
+	public Supplier(String name, String address, String postCode, Country country, String phone, String email) {
 		this.id= new Random().nextInt((Integer.MAX_VALUE));
 		this.name = name;
 		this.address = address;
@@ -23,8 +23,8 @@ public class Supplier implements java.io.Serializable {
 		this.country = country;
 		this.phone = phone;
 		this.email = email;
-		this.createDateTime = createDateTime;
-		this.updateDateTime = updateDateTime;
+		this.createDateTime = LocalDateTime.now();
+		this.updateDateTime = LocalDateTime.now();
 	}
 
 	public String getName() {

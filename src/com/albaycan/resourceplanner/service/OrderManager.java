@@ -8,11 +8,10 @@ public interface OrderManager {
 	
 	int addOrder(Order order);
 	void removeOrder(int id);
-	int addRefund(int id);
+	void addRefund(int orderId);
 	List<Order> getOrders();
 	Order getOrderById(int id);
-	List<Order> getOrderByProductId(int productId);
-	List<Order> getOrderByProductName(String productName);	
+	List<Order> getOrdersByProductId(int productId);
+	List<Order> getOrdersByProductName(String productName);	
 	void editOrder(Order order);
-	
 }

@@ -1,17 +1,12 @@
 package com.albaycan.resourceplanner.uicontroller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
-import com.albaycan.resourceplanner.domain.Category;
 import com.albaycan.resourceplanner.domain.Country;
 import com.albaycan.resourceplanner.domain.Order;
-import com.albaycan.resourceplanner.domain.Product;
 import com.albaycan.resourceplanner.service.InventoryManager;
-import com.albaycan.resourceplanner.service.InventoryManagerImp;
 import com.albaycan.resourceplanner.service.OrderManager;
-import com.albaycan.resourceplanner.service.OrderManagerImp;
 
 public class OrderUIController implements UIController {
 	
@@ -86,9 +81,18 @@ public class OrderUIController implements UIController {
 		
 		System.out.println("***********Add Order************\n");
 		
+		int productId;
+		boolean productExist;
+		do {
 		System.out.println("Product Id:");
-		int productId = input.nextInt();
+		productId = input.nextInt();
 		input.nextLine();
+		
+		productExist=inventoryManager.exist(productId);
+		
+		if(!productExist)
+			System.out.println("Invalid Product ID, please try again");
+		} while (!productExist);
 		
 		System.out.println("Sale Price");
 		double salePrice = input.nextDouble();
@@ -99,9 +103,19 @@ public class OrderUIController implements UIController {
 		System.out.println("Packaging Cost");
 		double packagingCost = input.nextDouble();
 		
+		int qty;
+		int currentStock;
+		do {
+			
 		System.out.println("Quantity:");
-		int qty = input.nextInt();
+		qty = input.nextInt();
 		input.nextLine();
+		
+		currentStock= inventoryManager.getProductById(productId).getStock();
+		if(currentStock<qty)
+			System.out.println("Unsifficient stock, please enter less quantity");
+		
+		} while (currentStock<qty);
 		
 		System.out.println("Customer Name:");
 		String customerName = input.nextLine();
@@ -121,18 +135,13 @@ public class OrderUIController implements UIController {
 		
 		System.out.println("Customer Email:");
 		String customerEmail = input.nextLine();
-		
-		LocalDateTime createDateTime = LocalDateTime.now();
-		LocalDateTime updateDateTime = LocalDateTime.now();	
-		
-		boolean refunded = false;
-		
+						
 		Order order = new Order(productId, salePrice, shippingCost, packagingCost, qty, 
 				customerName, customerAddress, customerPostCode, customerCountry, 
-				customerPhone, customerEmail, createDateTime, updateDateTime, refunded);
+				customerPhone, customerEmail, false);
 		
 		int orderId = orderManager.addOrder(order);
-		System.out.printf("New Order is created with Order Id '%d'", orderId).println();	
+		System.out.printf("Order is created with Order Id '%d'", orderId).println();	
 		
 	}
 	
@@ -145,10 +154,13 @@ public class OrderUIController implements UIController {
 		input.nextLine();
 		
 		Order order = orderManager.getOrderById(id);
-
-		orderManager.removeOrder(id);
-		System.out.printf("'%d' order is removed", order.getId()).println();
 		
+		if(order==null) {
+			System.out.println("Order not found");
+		} else {
+		orderManager.removeOrder(id);
+		System.out.printf("Order Id '%d' is removed", order.getId()).println();
+		}
 	}
 	
 	
@@ -160,9 +172,13 @@ public class OrderUIController implements UIController {
 		input.nextLine();
 		
 		Order order = orderManager.getOrderById(id);
-
+		
+		if(order==null) {
+			System.out.println("Order not found");
+		} else {
 		orderManager.addRefund(id);
 		System.out.printf("'%d' order is refunded", order.getId()).println();
+		}
 		
 	}
 	
@@ -184,6 +200,10 @@ public class OrderUIController implements UIController {
 		
 		Order order = orderManager.getOrderById(id);
 		
+		if(order==null) {
+			System.out.println("Order not found");
+		} else {
+		
 		String leftAlignFormat = "%-11d | %-11d | %-11f | %-11f | %-11f | %-11d | %-20s | %-9s | %-14s | %-12s | %-15s | %-9s | %-9t | %-22t | %-20s  %n";
 
 		System.out.format(
@@ -194,6 +214,7 @@ public class OrderUIController implements UIController {
 				"------------|------------|----------------|-------------------|--------------------|----------|----------------|----------------------|-------------------|------------------|----------------|------------------|----------------------|----------------------|----------%n");
 		
 		System.out.format(leftAlignFormat, order.getId(), order.getProductId(), order.getSalePrice(), order.getShippingCost(), order.getPackagingCost(), order.getQty(), order.getCustomerName(), order.getCustomerAddress(), order.getCustomerPostCode(), order.getCustomerCountry(), order.getCustomerPhone(), order.getCustomerEmail(), order.getCreateDateTime(), order.getUpdateDateTime(), order.isRefunded());
+		}
 		
 	}
 	
@@ -205,7 +226,13 @@ public class OrderUIController implements UIController {
 		int id = input.nextInt();
 		input.nextLine();
 		
-		printOrderListAsTable(orderManager.getOrderByProductId(id));
+		List<Order> orders = orderManager.getOrdersByProductId(id);
+		
+		if(orders==null) {
+			System.out.println("No Order/s found");
+		} else {		
+		printOrderListAsTable(orders);
+		}
 		
 	}
 	
@@ -216,14 +243,13 @@ public class OrderUIController implements UIController {
 		System.out.println("Product Id:\n");
 		String productName = input.nextLine();
 		
-		printOrderListAsTable(orderManager.getOrderByProductName(productName));		
+		printOrderListAsTable(orderManager.getOrdersByProductName(productName));		
 		
 	}
 		
 	
 	private void editOrder() {
-		System.out.println("***********Edit Order************\n");
-		
+		System.out.println("***********Edit Order************\n");		
 		
 		System.out.println("Enter the Id of the order you wish to edit:\n");
 		int id = input.nextInt();
@@ -343,7 +369,7 @@ public class OrderUIController implements UIController {
 		
 		orderManager.editOrder(order);
 
-		System.out.printf("Order ‘%d’ is updated.", order.getId()).println();
+		System.out.printf("Order Id ‘%d’ is updated.", order.getId()).println();
 		
 	}
 	

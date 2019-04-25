@@ -17,7 +17,7 @@ public class Product implements java.io.Serializable {
 	private LocalDateTime createDateTime;
 	private LocalDateTime updateDateTime;
 	
-	public Product (String SKU, int supplierId, Category category, String name, double buyPrice, double sellPrice, int weight, int stock, LocalDateTime createDateTime, LocalDateTime updateDateTime) {
+	public Product (String SKU, int supplierId, Category category, String name, double buyPrice, double sellPrice, int weight, int stock) {
 		this.id = new Random().nextInt((Integer.MAX_VALUE));
 		this.SKU = SKU;
 		this.supplierId = supplierId;
@@ -27,8 +27,8 @@ public class Product implements java.io.Serializable {
 		this.sellPrice = sellPrice;
 		this.weight = weight;
 		this.stock = stock;
-		this.createDateTime = createDateTime;
-		this.updateDateTime = updateDateTime;
+		this.createDateTime = LocalDateTime.now();
+		this.updateDateTime = LocalDateTime.now();
 		
 	}
 

@@ -10,8 +10,12 @@ import com.albaycan.resourceplanner.domain.Product;
 public class OrderManagerImp implements OrderManager {
 	
 	List<Order> orderList = new ArrayList<Order>();
-	private InventoryManager inventoryManager = new InventoryManagerImp();
+	private InventoryManager inventoryManager;
 			
+	public OrderManagerImp(InventoryManager inventoryManager) {
+		this.inventoryManager = inventoryManager;
+	}
+
 	@Override
 	public int addOrder(Order order) {
 		
@@ -22,7 +26,7 @@ public class OrderManagerImp implements OrderManager {
 	}
 
 	@Override
-	public void removeOrder(int id) {
+	public void removeOrder(int id) {		
 		
 		for (Order order: orderList) {	
 			if(order.getId()==id) {
@@ -33,17 +37,15 @@ public class OrderManagerImp implements OrderManager {
 	}
 
 	@Override
-	public int addRefund(int id) {			
+	public void addRefund(int id) {			
 		
 		Order order = getOrderById(id);
 		order.setRefunded(true);
 		
-		orderList.removeIf(x->x.getId()==id);
-		orderList.add(order);				
+		editOrder(order);				
 		
-		inventoryManager.increaseStock(order.getProductId(), order.getQty());
+		inventoryManager.increaseStock(order.getProductId(), order.getQty());		
 		
-		return 0;
 	}
 
 	@Override
@@ -59,19 +61,24 @@ public class OrderManagerImp implements OrderManager {
 	}
 
 	@Override
-	public List<Order> getOrderByProductId(int productId) {
+	public List<Order> getOrdersByProductId(int productId) {
 		
 		return orderList.stream().filter(x->x.getProductId()==productId).collect(Collectors.toList());
 	}
 
 	@Override
-	public List<Order> getOrderByProductName(String productName) {
+	public List<Order> getOrdersByProductName(String productName) {
 		
-		List<Product> list = inventoryManager.getProductByName(productName);
-		Product product = list.stream().filter(x->x.getName().toLowerCase().contains(productName.toLowerCase())).findFirst().get();
-		int productId = product.getId();
+		List<Product> filteredProducts= inventoryManager.getProductByName(productName);
 		
-		return getOrderByProductId(productId);
+		List<Order> filteredOrders=new ArrayList<Order>();
+		
+		for (Product product : filteredProducts) {
+			List<Order> orders=	getOrdersByProductId(product.getId());
+			filteredOrders.addAll(orders);
+		}
+		
+		return filteredOrders;
 	}
 
 	@Override

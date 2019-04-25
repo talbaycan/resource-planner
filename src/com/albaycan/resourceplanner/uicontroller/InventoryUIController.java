@@ -1,15 +1,12 @@
 package com.albaycan.resourceplanner.uicontroller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
 import com.albaycan.resourceplanner.domain.Category;
 import com.albaycan.resourceplanner.domain.Product;
 import com.albaycan.resourceplanner.service.InventoryManager;
-import com.albaycan.resourceplanner.service.InventoryManagerImp;
 import com.albaycan.resourceplanner.service.SupplierManager;
-import com.albaycan.resourceplanner.service.SupplierManagerImp;
 
 public class InventoryUIController implements UIController{
 	
@@ -96,16 +93,17 @@ public class InventoryUIController implements UIController{
 			Category category = Category.valueOf(input.nextLine());
 				
 			System.out.println("Supplier Id:");
-			boolean supplierExists;
+			boolean supplierExist;
 			int supplierId;
 			do {
 				supplierId = input.nextInt();
 				
-				supplierExists=supplierManager.exists(supplierId);
-				if (supplierExists==false) {
+				supplierExist=supplierManager.exists(supplierId);
+				
+				if (supplierExist==false) {
 					System.out.println("Invalid Supplier ID, please enter again");
 				}
-			} while (supplierExists=false); 
+			} while (supplierExist=false); 
 			
 				
 			System.out.println("Buy Price (GBP)");
@@ -120,12 +118,9 @@ public class InventoryUIController implements UIController{
 			
 			System.out.println("Stock:");
 			int stock = input.nextInt();
-			input.nextLine();
-			
-			LocalDateTime createDateTime = LocalDateTime.now();
-			LocalDateTime updateDateTime = LocalDateTime.now();		
+			input.nextLine();	
 						
-			Product product = new Product(SKU, supplierId, category, name, buyPrice, sellPrice, weight, stock, createDateTime, updateDateTime);		
+			Product product = new Product(SKU, supplierId, category, name, buyPrice, sellPrice, weight, stock);		
 				
 			int productId = inventoryManager.addProduct(product);
 			System.out.printf("'%s' is created with Product Id '%d'", name, productId).println();	
@@ -141,9 +136,13 @@ public class InventoryUIController implements UIController{
 			input.nextLine();
 			
 			Product product = inventoryManager.getProductById(id);
-
+			
+			if(product==null) {
+				System.out.println("Product not found");
+			} else {
 			inventoryManager.removeProduct(id);
 			System.out.printf("'%s' is removed", product.getName()).println();
+			}
 			
 		}
 		

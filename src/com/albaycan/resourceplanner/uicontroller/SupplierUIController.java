@@ -1,13 +1,11 @@
 package com.albaycan.resourceplanner.uicontroller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
 import com.albaycan.resourceplanner.domain.Country;
 import com.albaycan.resourceplanner.domain.Supplier;
 import com.albaycan.resourceplanner.service.SupplierManager;
-import com.albaycan.resourceplanner.service.SupplierManagerImp;
 
 public class SupplierUIController implements UIController {
 	private Scanner input = new Scanner(System.in);
@@ -83,11 +81,7 @@ public class SupplierUIController implements UIController {
 		System.out.println("Email Address:");
 		String email = input.nextLine();
 
-		LocalDateTime createDateTime = LocalDateTime.now();
-		LocalDateTime updateDateTime = LocalDateTime.now();
-
-		Supplier supplier = new Supplier(name, address, postCode, country, phone, email, createDateTime,
-				updateDateTime);
+		Supplier supplier = new Supplier(name, address, postCode, country, phone, email);
 
 		int supplierId = supplierManager.addSupplier(supplier);
 		System.out.printf("'%s' is created with Supplier Id '%d'", name, supplierId).println();
@@ -102,10 +96,14 @@ public class SupplierUIController implements UIController {
 		input.nextLine();
 
 		Supplier supplier = supplierManager.getSupplierById(id);
-
+		
+		if(supplier==null) {
+			System.out.println("Supplier not found");
+		} else {
 		supplierManager.removeSupplier(id);
 		System.out.printf("'%s' is removed", supplier.getName()).println();
-
+		}
+		
 	}
 
 	private void getSuppliers() {
