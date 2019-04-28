@@ -88,8 +88,8 @@ public class ReportRecord implements java.io.Serializable {
 	}
 
 
-	public double getProfitRatio() {
-		return profitRatio;
+	public String getProfitRatio() {
+		return Double.toString(profitRatio)+"%";
 	}
 
 

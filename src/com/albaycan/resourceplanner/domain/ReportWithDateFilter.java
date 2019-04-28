@@ -2,56 +2,42 @@ package com.albaycan.resourceplanner.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
-public class ReportWithDateFilter implements java.io.Serializable {
+public class ReportWithDateFilter extends ReportTemplate implements java.io.Serializable {	
 	
-	private int id;
-	private String name;
-	private String type;
-	private ReportRecord reportRecords;
-	private LocalDateTime createdDateTime;
+	private List<ReportRecord> reportRecords; 
+	private int recordCount;
 	private LocalDate filterStartDate;
-	private LocalDate filterEndDate;
+	private LocalDate filterEndDate;		
+		
 	
-	
-	public ReportWithDateFilter(String name, String type, ReportRecord reportRecords, LocalDate filterStartDate,
-			LocalDate filterEndDate) {
-		super();
-		this.name = name;
-		this.type = type;
+	public ReportWithDateFilter(int id, String name, ReportTypeEnum type, LocalDateTime createdDateTime, List<ReportRecord> reportRecords, int recordCount, LocalDate filterStartDate, LocalDate filterEndDate) {
+		super(id, name, type, createdDateTime);
 		this.reportRecords = reportRecords;
+		this.recordCount = recordCount;
 		this.filterStartDate = filterStartDate;
 		this.filterEndDate = filterEndDate;
 	}
 
 
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	public String getType() {
-		return type;
-	}
-
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-
-	public ReportRecord getReportRecords() {
+	public List<ReportRecord> getReportRecords() {
 		return reportRecords;
 	}
 
 
-	public void setReportRecords(ReportRecord reportRecords) {
+	public void setReportRecords(List<ReportRecord> reportRecords) {
 		this.reportRecords = reportRecords;
+	}
+
+
+	public int getRecordCount() {
+		return recordCount;
+	}
+
+
+	public void setRecordCount(int recordCount) {
+		this.recordCount = recordCount;
 	}
 
 
@@ -75,16 +61,6 @@ public class ReportWithDateFilter implements java.io.Serializable {
 	}
 
 
-	public int getId() {
-		return id;
-	}
-
-
-	public LocalDateTime getCreatedDateTime() {
-		return createdDateTime;
-	}
-	
-	
 	
 	
 }			

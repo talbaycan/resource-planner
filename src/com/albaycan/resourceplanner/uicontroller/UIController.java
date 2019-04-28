@@ -1,6 +1,8 @@
 package com.albaycan.resourceplanner.uicontroller;
 
+import java.text.ParseException;
+
 public interface UIController {
 
-	String showMenu();
+	String showMenu() throws ParseException;
 }
